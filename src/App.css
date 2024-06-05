@@ -93,14 +93,15 @@ a {
 
 .weather-temperature img {
   margin-right: 5px;
-  width: 70px;
+  width: 120px;
   float: left;
 }
 .weather-temperature strong {
   color: rgb (33, 33, 33);
   font-size: 64px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 120px;
+  margin: 0 auto;
 }
 .weather-temperature .active {
   color: black;
@@ -122,4 +123,8 @@ a {
 }
 .weather-forecast-minimum {
   opacity: 0.6;
+}
+#icon {
+  width: 120px;
+  margin: 0 auto;
 }
