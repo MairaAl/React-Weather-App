@@ -59,7 +59,7 @@ export default function Weather(props) {
             <WeatherInfo info={weatherData} />
           </div>
           <small>
-            <a href="https://github.com/MairaAl/weather-app">
+            <a href="https://github.com/MairaAl/React-Weather-App">
               Open source code{" "}
             </a>
             by Maira
