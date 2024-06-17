@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
-import FormattedDate from "./FormattedDate";
+import WeatherInfo from "./WeatherInfo";
 
 export default function Weather(props) {
-  const [weatherData, setWeatherData] = useState({});
-  const [ready, setReady] = useState(false);
+  const [city, setCity] = useState(props.defaultCity);
+  const [weatherData, setWeatherData] = useState({ ready: false });
   function handleResponse(response) {
     console.log(response.data);
     setWeatherData({
+      ready: true,
       date: new Date(response.data.time * 1000),
       temperature: response.data.temperature.current,
       humidity: response.data.temperature.humidity,
@@ -16,15 +17,25 @@ export default function Weather(props) {
       city: response.data.city,
       icon: response.data.condition.icon_url,
     });
-    setReady(true);
   }
-
-  if (ready) {
+  function search() {
+    let apiKey = "b6dboa0a631739a3fcfd0t3ff674a04b";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+  function handleChange(event) {
+    setCity(event.target.value);
+  }
+  if (weatherData.ready) {
     return (
       <div className="container">
         <div className="weather-app-wrapper">
           <div className="weather-app">
-            <form id="search-form" className="mb-3">
+            <form id="search-form" className="mb-3" onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-9">
                   <input
@@ -33,6 +44,7 @@ export default function Weather(props) {
                     className="form-control"
                     id="city-input"
                     autoComplete="off"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="col-3">
@@ -44,53 +56,8 @@ export default function Weather(props) {
                 </div>
               </div>
             </form>
-            <div className="overview">
-              <h1 id="city">{weatherData.city}</h1>
-              <ul>
-                <li>
-                  Last updated: <FormattedDate date={weatherData.date} />
-                  <span id="date"></span>
-                </li>
-                <li id="description">{weatherData.description}</li>
-              </ul>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="clearfix weather-temperature">
-                  <img
-                    src={weatherData.icon}
-                    alt={weatherData.description}
-                    className="float-left"
-                    id="icon"
-                  />
-                  <div className="float-left">
-                    <strong id="temperature">
-                      {Math.round(weatherData.temperature)}
-                    </strong>
-                    <span className="units">
-                      <a href="#" id="celsius-link" className="active">
-                        ºC{" "}
-                      </a>
-                      |
-                      <a href="#" id="fahrenheit-link">
-                        ºF
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <ul>
-                  <li>
-                    Humidity: <span id="humidity">{weatherData.humidity}</span>%
-                  </li>
-                  <li>
-                    Wind: <span id="wind">{Math.round(weatherData.wind)}</span>{" "}
-                    km/h
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <WeatherInfo info={weatherData} />
+
             <div className="weather-forecast" id="forecast">
               <div className="row">
                 <div className="col-2">
@@ -118,10 +85,7 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    let apiKey = "b6dboa0a631739a3fcfd0t3ff674a04b";
-    let city = "London";
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${props.defaultCity}&key=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(handleResponse);
+    search();
     return "Loading...";
   }
 }
