@@ -1,4 +1,5 @@
 import FormattedDate from "./FormattedDate";
+import WeatherTemperature from "./WeatherTemperature";
 
 export default function WeatherInfo(props) {
   return (
@@ -23,18 +24,7 @@ export default function WeatherInfo(props) {
               id="icon"
             />
             <div className="float-left">
-              <strong id="temperature">
-                {Math.round(props.info.temperature)}
-              </strong>
-              <span className="units">
-                <a href="#" id="celsius-link" className="active">
-                  ºC{" "}
-                </a>
-                |
-                <a href="#" id="fahrenheit-link">
-                  ºF
-                </a>
-              </span>
+              <WeatherTemperature celsius={props.info.temperature} />
             </div>
           </div>
         </div>
