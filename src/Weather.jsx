@@ -57,23 +57,6 @@ export default function Weather(props) {
               </div>
             </form>
             <WeatherInfo info={weatherData} />
-
-            <div className="weather-forecast" id="forecast">
-              <div className="row">
-                <div className="col-2">
-                  <div className="weather-forecast-date">Mon</div>
-                  <img
-                    src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/few-clouds-day.png"
-                    alt="few-clouds-day"
-                    width="60px"
-                  />
-                  <div className="weather-forecast-temperatures">
-                    <span className="weather-forecast-maximum"> 17º </span>
-                    <span className="weather-forecast-minimum">13º</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <small>
             <a href="https://github.com/MairaAl/weather-app">
